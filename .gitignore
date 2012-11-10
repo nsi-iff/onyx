@@ -1,0 +1,9 @@
+# eclipse files
+.classpath
+.project
+
+# rbenv
+.rbenv-version
+
+# output
+bin/
