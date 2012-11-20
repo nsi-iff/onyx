@@ -15,6 +15,13 @@
       <version>2.1-M3</version>
     </dependency>
     <dependency>
+      <groupId>br.ifpi.lapesi.opala</groupId>
+      <artifactId>opala</artifactId>
+      <version>anything</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/opala.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.10</version>

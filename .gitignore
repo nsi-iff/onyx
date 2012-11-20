@@ -9,3 +9,5 @@
 bin/
 reports/
 target/
+webapps/
+opala.conf

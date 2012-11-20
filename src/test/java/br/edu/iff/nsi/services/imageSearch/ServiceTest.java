@@ -19,7 +19,7 @@ public class ServiceTest {
 
     @Before
     public void serverUp() throws Exception {
-        server = new Server(Protocol.HTTP, 8111, ImageSearchService.class);
+        server = new Server(Protocol.HTTP, 8111, RestletImageSearchService.class);
         server.start();
     }
 
