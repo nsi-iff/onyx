@@ -14,27 +14,35 @@ import br.edu.ifpi.opala.utils.*;
 
 public class OpalaImageSearchServiceTest {
     private ImageSearchService service;
+    private Map<String, String> success, notFound;
 
     @Before
-    public void init() {
+    public void resetIndices() {
         Util.deleteDir(new File(Path.IMAGE_INDEX.getValue()));
+    }
+
+    @Before
+    public void initAttributes() {
+        service = new OpalaImageSearchService();
+        success = messageToMap(ReturnMessage.SUCCESS);
+        notFound = messageToMap(ReturnMessage.ID_NOT_FOUND);
     }
 
     @Test
     public void index() throws IOException {
-        service = new OpalaImageSearchService();
-        @SuppressWarnings("serial")
-        Map<String, String> map = new HashMap<String, String>() {{
-            put("code", String.valueOf(ReturnMessage.SUCCESS.getCode()));
-            put("message", ReturnMessage.SUCCESS.getMessage());
-        }};
-
         assertThat(service.index("fruits", readFile("/tropical_fruits.jpg")),
-                is(equalTo(map)));
+                is(equalTo(success)));
         assertThat(service.index("dawn1", readFile("/dawn1.jpg")),
-                is(equalTo(map)));
+                is(equalTo(success)));
         assertThat(service.index("dawn2", readFile("/dawn2.jpg")),
-                is(equalTo(map)));
+                is(equalTo(success)));
+    }
+
+    @Test
+    public void remove() {
+        service.index("fruits", readFile("/tropical_fruits.jpg"));
+        assertThat(service.remove("fruits"), is(equalTo(success)));
+        assertThat(service.remove("fruits"), is(equalTo(notFound)));
     }
 
     private byte[] readFile(String fileName) {
@@ -45,5 +53,13 @@ public class OpalaImageSearchServiceTest {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Map<String, String> messageToMap(ReturnMessage message) {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("code", String.valueOf(message.getCode()));
+        result.put("message", message.getMessage());
+        result.put("name", message.name());
+        return result;
     }
 }
