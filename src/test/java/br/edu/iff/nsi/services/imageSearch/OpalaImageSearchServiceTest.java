@@ -51,8 +51,13 @@ public class OpalaImageSearchServiceTest {
         service.index("dawn1", readFile("/dawn1.jpg"));
 
         List<Map<String, String>> results = service.search(readFile("/dawn2.jpg"));
-        assertThat(results.get(0).get("id"), is(equalTo("dawn1")));
-        assertThat(results.get(1).get("id"), is(equalTo("fruits")));
+        Map<String, String> first, second;
+        first = results.get(0);
+        second = results.get(1);
+        assertThat(first.get("id"), is(equalTo("dawn1")));
+        assertThat(second.get("id"), is(equalTo("fruits")));
+        assertThat(Double.parseDouble(first.get("score")),
+                is(greaterThan(Double.parseDouble(second.get("score")))));
     }
 
     private byte[] readFile(String fileName) {
