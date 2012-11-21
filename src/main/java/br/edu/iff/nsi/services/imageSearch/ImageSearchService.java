@@ -26,6 +26,6 @@ public interface ImageSearchService {
      * @param fileContent
      * @return a list of hashes, each having "id" and "score".
      */
-    List<Map<String, String>> search(String fileContent);
-    List<Map<String, String>> search(String fileContent, int limit);
+    List<Map<String, String>> search(byte[] fileContent);
+    List<Map<String, String>> search(byte[] fileContent, int limit);
 }
