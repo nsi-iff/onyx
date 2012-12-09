@@ -2,6 +2,7 @@ package br.edu.iff.nsi.services.imageSearch;
 
 import static br.edu.ifpi.opala.utils.Conversor.byteArrayToBufferedImage;
 
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 import br.edu.ifpi.opala.indexing.*;
@@ -40,8 +41,8 @@ public class OpalaImageSearchService implements ImageSearchService {
 
     @Override
     public List<Map<String, String>> search(byte[] fileContent, int limit) {
-        SearchResult searchResult = searcher.search(
-            byteArrayToBufferedImage(fileContent), limit);
+        BufferedImage image = byteArrayToBufferedImage(fileContent);
+        SearchResult searchResult = searcher.search(image, limit);
         List<Map<String, String>> results = new LinkedList<Map<String,String>>();
         for (ResultItem item: searchResult.getItems()) {
             Map<String, String> map = new HashMap<String, String>();
