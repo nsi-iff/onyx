@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>image_search_server</groupId>
-  <artifactId>image_search_server</artifactId>
+  <groupId>onyx</groupId>
+  <artifactId>onyx</artifactId>
   <packaging>war</packaging>
   <version>0.1.0</version>
-  <name>image_search_server</name>
-  <url>https://github.com/rodrigomanhaes/image_search_server</url>
+  <name>onyx</name>
+  <url>https://github.com/rodrigomanhaes/onyx</url>
 
   <dependencies>
     <dependency>
@@ -62,9 +62,16 @@
         <artifactId>lucene-analyzers</artifactId>
         <version>3.0.2</version>
     </dependency>
+    <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
   </dependencies>
 
   <build>
+    <finalName>onyx</finalName>
       <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -82,6 +89,13 @@
               <excludes>
                 <exclude>**/Test*</exclude>
               </excludes>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+                <attachClasses>true</attachClasses>
             </configuration>
         </plugin>
       </plugins>

@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
 import org.junit.*;
 
 import br.edu.ifpi.opala.utils.*;
@@ -34,6 +36,36 @@ public class ImageSearchServerTest {
                     .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
                             "\"code\":\"a123\"}")
                     .body();
+            input = mapper.readValue(
+                    requestBody,
+                    new TypeReference<Map<String, String>>() {});
+        }
+        catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertThat(input.get("code"), is(equalTo(String.valueOf(SUCCESS.getCode()))));
+        assertThat(input.get("message"), is(equalTo(SUCCESS.getMessage())));
+    }
+
+    //@Test
+    public void remove() {
+        Map<String, String> input = null;
+        try {
+            // add image
+            HttpRequest
+                .put("http://localhost:" + port + "/")
+                .accept("application/json")
+                .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
+                        "\"code\":\"a123\"}");
+
+            // remove image
+            String requestBody = Request
+                .Delete("http://localhost:" + port + "/")
+                .bodyString("{\"code\":\"a123\"}", ContentType.APPLICATION_JSON)
+                .execute()
+                .returnContent()
+                .asString();
+
             input = mapper.readValue(
                     requestBody,
                     new TypeReference<Map<String, String>>() {});
