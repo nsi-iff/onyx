@@ -10,7 +10,7 @@ public interface ImageSearchService {
      * @return a hash with two keys: "code" and "message". Its values follow
      *          Opala's ReturnMessage values.
      */
-    Map<String, String> index(String key, byte[] fileContent);
+    Map<String, String> add(String key, byte[] fileContent);
 
     /**
      * Removes an image from index.

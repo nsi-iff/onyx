@@ -30,25 +30,25 @@ public class OpalaImageSearchServiceTest {
 
     @Test
     public void index() throws IOException {
-        assertThat(service.index("fruits", readFile("/tropical_fruits.jpg")),
+        assertThat(service.add("fruits", readFile("/tropical_fruits.jpg")),
                 is(equalTo(success)));
-        assertThat(service.index("dawn1", readFile("/dawn1.jpg")),
+        assertThat(service.add("dawn1", readFile("/dawn1.jpg")),
                 is(equalTo(success)));
-        assertThat(service.index("dawn2", readFile("/dawn2.jpg")),
+        assertThat(service.add("dawn2", readFile("/dawn2.jpg")),
                 is(equalTo(success)));
     }
 
     @Test
     public void remove() {
-        service.index("fruits", readFile("/tropical_fruits.jpg"));
+        service.add("fruits", readFile("/tropical_fruits.jpg"));
         assertThat(service.remove("fruits"), is(equalTo(success)));
         assertThat(service.remove("fruits"), is(equalTo(notFound)));
     }
 
     @Test
     public void search() {
-        service.index("fruits", readFile("/tropical_fruits.jpg"));
-        service.index("dawn1", readFile("/dawn1.jpg"));
+        service.add("fruits", readFile("/tropical_fruits.jpg"));
+        service.add("dawn1", readFile("/dawn1.jpg"));
 
         List<Map<String, String>> results = service.search(readFile("/dawn2.jpg"));
         Map<String, String> first, second;

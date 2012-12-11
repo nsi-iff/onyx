@@ -20,7 +20,7 @@ public class OpalaImageSearchService implements ImageSearchService {
     }
 
     @Override
-    public Map<String, String> index(String key, byte[] fileContent) {
+    public Map<String, String> add(String key, byte[] fileContent) {
         MetaDocument metaDocument = new MetaDocument();
         metaDocument.setId(key);
         metaDocument.setTitle("title" + key);

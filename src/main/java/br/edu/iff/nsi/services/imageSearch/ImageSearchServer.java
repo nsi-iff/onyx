@@ -41,7 +41,7 @@ public class ImageSearchServer implements SparkApplication {
                     Map<String, String> incoming = mapper.readValue(input,
                         new TypeReference<Map<String, String>>() { });
                     byte[] decoded = Base64.decodeBase64(incoming.get("image"));
-                    Map<String, String> result = service.index(incoming.get("key"), decoded);
+                    Map<String, String> result = service.add(incoming.get("key"), decoded);
                     String json = mapper.writeValueAsString(result);
                     response.type("application/json");
                     return json;
