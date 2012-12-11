@@ -41,7 +41,7 @@ public class ImageSearchServer implements SparkApplication {
                     Map<String, String> incoming = mapper.readValue(input,
                         new TypeReference<Map<String, String>>() { });
                     byte[] decoded = Base64.decodeBase64(incoming.get("image"));
-                    Map<String, String> result = service.index(incoming.get("code"), decoded);
+                    Map<String, String> result = service.index(incoming.get("key"), decoded);
                     String json = mapper.writeValueAsString(result);
                     response.type("application/json");
                     return json;
@@ -59,7 +59,7 @@ public class ImageSearchServer implements SparkApplication {
                     String input = request.body();
                     Map<String, String> incoming = mapper.readValue(input,
                         new TypeReference<Map<String, String>>() { });
-                    Map<String, String> result = service.remove(incoming.get("code"));
+                    Map<String, String> result = service.remove(incoming.get("key"));
                     String json = mapper.writeValueAsString(result);
                     response.type("application/json");
                     return json;

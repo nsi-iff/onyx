@@ -20,18 +20,18 @@ public class OpalaImageSearchService implements ImageSearchService {
     }
 
     @Override
-    public Map<String, String> index(String id, byte[] fileContent) {
+    public Map<String, String> index(String key, byte[] fileContent) {
         MetaDocument metaDocument = new MetaDocument();
-        metaDocument.setId(id);
-        metaDocument.setTitle("title" + id);
+        metaDocument.setId(key);
+        metaDocument.setTitle("title" + key);
         ReturnMessage result = indexer.addImage(metaDocument,
             byteArrayToBufferedImage(fileContent));
         return messageToMap(result);
     }
 
     @Override
-    public Map<String, String> remove(String id) {
-        return messageToMap(indexer.delImage(id));
+    public Map<String, String> remove(String key) {
+        return messageToMap(indexer.delImage(key));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OpalaImageSearchService implements ImageSearchService {
         List<Map<String, String>> results = new LinkedList<Map<String,String>>();
         for (ResultItem item: searchResult.getItems()) {
             Map<String, String> map = new HashMap<String, String>();
-            map.put("id", item.getId());
+            map.put("key", item.getId());
             map.put("score", item.getScore());
             results.add(map);
         }

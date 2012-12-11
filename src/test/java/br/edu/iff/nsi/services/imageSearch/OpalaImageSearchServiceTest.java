@@ -54,8 +54,8 @@ public class OpalaImageSearchServiceTest {
         Map<String, String> first, second;
         first = results.get(0);
         second = results.get(1);
-        assertThat(first.get("id"), is(equalTo("dawn1")));
-        assertThat(second.get("id"), is(equalTo("fruits")));
+        assertThat(first.get("key"), is(equalTo("dawn1")));
+        assertThat(second.get("key"), is(equalTo("fruits")));
         assertThat(Double.parseDouble(first.get("score")),
                 is(greaterThan(Double.parseDouble(second.get("score")))));
     }
