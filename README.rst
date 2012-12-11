@@ -1,8 +1,8 @@
-Image search service
-====================
+Onyx
+====
 
-.. image:: https://secure.travis-ci.org/rodrigomanhaes/image_search_service.png
-   :target: http://travis-ci.org/rodrigomanhaes/image_search_service
+.. image:: https://secure.travis-ci.org/rodrigomanhaes/onyx.png
+   :target: http://travis-ci.org/rodrigomanhaes/onyx
 
 
-Coming soon.
+Serving Opala restfully.
