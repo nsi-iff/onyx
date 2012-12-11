@@ -3,7 +3,7 @@ package br.edu.iff.nsi.services.imageSearch;
 import static spark.Spark.*;
 
 import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -68,6 +68,26 @@ public class ImageSearchServer implements SparkApplication {
                     throw new RuntimeException(e);
                 }
             }
+        });
+
+        post(new Route("/") {
+            @Override
+            public Object handle(Request request, Response response) {
+                try {
+                    String input = request.body();
+                    Map<String, String> incoming = mapper.readValue(input,
+                        new TypeReference<Map<String, String>>() { });
+                    byte[] decoded = Base64.decodeBase64(incoming.get("image"));
+                    List<Map<String, String>> result = service.search(decoded);
+                    String json = mapper.writeValueAsString(result);
+                    response.type("application/json");
+                    return json;
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         });
     }
 
