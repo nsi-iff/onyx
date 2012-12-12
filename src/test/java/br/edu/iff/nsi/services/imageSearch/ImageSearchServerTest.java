@@ -27,86 +27,71 @@ public class ImageSearchServerTest {
     private static final int port = 9876;
 
     @Test
-    public void add() {
+    public void add() throws Exception {
         Map<String, String> input = null;
-        try {
-            String responseBody = HttpRequest
-                    .put("http://localhost:" + port + "/")
-                    .accept("application/json")
-                    .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
-                            "\"key\":\"a123\"}")
-                    .body();
-            input = mapper.readValue(
-                    responseBody,
-                    new TypeReference<Map<String, String>>() {});
-        }
-        catch(Exception e) {
-            throw new RuntimeException(e);
-        }
+        String responseBody = HttpRequest
+                .put("http://localhost:" + port + "/")
+                .accept("application/json")
+                .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
+                        "\"key\":\"a123\"}")
+                .body();
+        input = mapper.readValue(
+                responseBody,
+                new TypeReference<Map<String, String>>() {});
         assertThat(input.get("code"), is(equalTo(String.valueOf(SUCCESS.getCode()))));
         assertThat(input.get("message"), is(equalTo(SUCCESS.getMessage())));
     }
 
     //@Test
-    public void remove() {
+    public void remove() throws Exception {
         Map<String, String> input = null;
-        try {
-            // add image
-            HttpRequest
-                .put("http://localhost:" + port + "/")
-                .accept("application/json")
-                .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
-                        "\"key\":\"a123\"}");
+        // add image
+        HttpRequest
+            .put("http://localhost:" + port + "/")
+            .accept("application/json")
+            .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
+                    "\"key\":\"a123\"}");
 
-            // remove image
-            String responseBody = Request
-                .Delete("http://localhost:" + port + "/")
-                .bodyString("{\"key\":\"a123\"}", ContentType.APPLICATION_JSON)
-                .execute()
-                .returnContent()
-                .asString();
+        // remove image
+        String responseBody = Request
+            .Delete("http://localhost:" + port + "/")
+            .bodyString("{\"key\":\"a123\"}", ContentType.APPLICATION_JSON)
+            .execute()
+            .returnContent()
+            .asString();
 
             input = mapper.readValue(
                     responseBody,
                     new TypeReference<Map<String, String>>() {});
-        }
-        catch(Exception e) {
-            throw new RuntimeException(e);
-        }
         assertThat(input.get("code"), is(equalTo(String.valueOf(SUCCESS.getCode()))));
         assertThat(input.get("message"), is(equalTo(SUCCESS.getMessage())));
     }
 
     @Test
-    public void search() {
+    public void search() throws Exception {
         List<Map<String, String>> results = null;
-        try {
-            // add image
-            HttpRequest
-                .put("http://localhost:" + port + "/")
-                .accept("application/json")
-                .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
-                        "\"key\":\"dawn1\"}").body();
-            HttpRequest
-                .put("http://localhost:" + port + "/")
-                .accept("application/json")
-                .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/tropical_fruits.jpg")) + "\"," +
-                        "\"key\":\"tropical\"}").body();
+        // add images
+        HttpRequest
+            .put("http://localhost:" + port + "/")
+            .accept("application/json")
+            .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
+                    "\"key\":\"dawn1\"}").body();
+        HttpRequest
+            .put("http://localhost:" + port + "/")
+            .accept("application/json")
+            .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/tropical_fruits.jpg")) + "\"," +
+                    "\"key\":\"tropical\"}").body();
 
-            // search image
-            String responseBody = HttpRequest
-                .post("http://localhost:" + port + "/")
-                .accept("application/json")
-                .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn2.jpg")) + "\"}")
-                .body();
+        // search image
+        String responseBody = HttpRequest
+            .post("http://localhost:" + port + "/")
+            .accept("application/json")
+            .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn2.jpg")) + "\"}")
+            .body();
 
             results = mapper.readValue(
                     responseBody,
                     new TypeReference<List<Map<String, String>>>() {});
-        }
-        catch(Exception e) {
-            throw new RuntimeException(e);
-        }
         assertThat(results.size(), is(equalTo(2)));
         Map<String, String> result1, result2;
         result1 = results.get(0);
