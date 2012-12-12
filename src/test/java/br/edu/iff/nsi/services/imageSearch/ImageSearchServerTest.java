@@ -30,14 +30,14 @@ public class ImageSearchServerTest {
     public void add() {
         Map<String, String> input = null;
         try {
-            String requestBody = HttpRequest
+            String responseBody = HttpRequest
                     .put("http://localhost:" + port + "/")
                     .accept("application/json")
                     .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn1.jpg")) + "\"," +
                             "\"key\":\"a123\"}")
                     .body();
             input = mapper.readValue(
-                    requestBody,
+                    responseBody,
                     new TypeReference<Map<String, String>>() {});
         }
         catch(Exception e) {
@@ -59,7 +59,7 @@ public class ImageSearchServerTest {
                         "\"key\":\"a123\"}");
 
             // remove image
-            String requestBody = Request
+            String responseBody = Request
                 .Delete("http://localhost:" + port + "/")
                 .bodyString("{\"key\":\"a123\"}", ContentType.APPLICATION_JSON)
                 .execute()
@@ -67,7 +67,7 @@ public class ImageSearchServerTest {
                 .asString();
 
             input = mapper.readValue(
-                    requestBody,
+                    responseBody,
                     new TypeReference<Map<String, String>>() {});
         }
         catch(Exception e) {
@@ -94,14 +94,14 @@ public class ImageSearchServerTest {
                         "\"key\":\"tropical\"}").body();
 
             // search image
-            String requestBody = HttpRequest
+            String responseBody = HttpRequest
                 .post("http://localhost:" + port + "/")
                 .accept("application/json")
                 .send("{\"image\":\"" + Base64.encodeBase64String(readFile("/dawn2.jpg")) + "\"}")
                 .body();
 
             results = mapper.readValue(
-                    requestBody,
+                    responseBody,
                     new TypeReference<List<Map<String, String>>>() {});
         }
         catch(Exception e) {
